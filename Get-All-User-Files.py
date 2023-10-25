@@ -11,11 +11,12 @@
             - https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe
 
         2. Run Python file in PowerShell.
-            - python C:\C:\Users\<UserName>\<Location>\Get-All-User-Files.py
+            - python C:/Users/<UserName>/<Location>/Get-All-User-Files.py
             
         3. Rejoice.
             - Yay! You did it.
 """
+
 import os
 import time
 
@@ -26,12 +27,12 @@ def welcome_message():
     
     print( '*******************************************\n*             FOR CYBER PARTIOTS          *\n*******************************************\n')
     
-    print('This python file gets all user files on the computer to help find hidden files a user may have\n')
+    print('This python file gets all user files on the\ncomputer to help find hidden files a user\nmay have\n')
     
     # Virual machines for Cyber Patriots are very slow 
     # Allows the computer time to run the program
     for seconds in range(5, 0, -1):
-        print(f'\rThis script will now execute in {seconds} seconds ...', end=('' if seconds > 1 else '\n\n'))
+        print(f'\rThis script will now execute in {seconds} seconds', end=('' if seconds > 1 else '\n\n'))
         time.sleep(1)
 
 
