@@ -33,8 +33,8 @@ document_location_paths = [
 ]
 
 def welcome_message():
-    print('*' * 43 + '\n*             FOR CYBER PATRIOTS          *\n' + '*' * 43)
-    print('\nThis python file gets all user files on the\ncomputer to help find hidden files a user\nmay have\n')
+    print('*' * 43 + '\n*             FOR CYBER PATRIOTS          *\n' + '*' * 43 + '\n')
+    print('This python file gets all user files on the\ncomputer to help find hidden files a user\nmay have\n')
     for seconds in range(5, 0, -1):
         print(f'\rThis script will now execute in {seconds} seconds', end=('' if seconds > 1 else '\n\n'))
         time.sleep(1)
@@ -64,10 +64,10 @@ def write_files_to_text(files):
 
 def main():
     welcome_message()
-    
+
     user_list = get_user_list()
-    print(f'All files found under users: {user_list}\n')
-    
+    print(f'All files found under user(s): {user_list}\n')
+
     list_of_files = get_files()
 
     write_files_to_text(list_of_files)
