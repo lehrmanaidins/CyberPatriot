@@ -1,3 +1,4 @@
+
 """
     Get-All-User-Files.py
     @author Lehrman, Aidin
@@ -20,55 +21,59 @@
 import os
 import time
 
-extentions = ['.doc', '.docx', '.txt', '.pdf', '.htm', '.html', '.ppt', '.pptx', '.wma', '.avi', '.mov', '.jpg', '.jpeg', '.png', '.gif', '.psd', '.svg', '.ai', '.zip', '.rar', '.7z', '.xlsx', '.rtf', '.exe', '.mp3', '.mp4']
-document_location_paths: list[str] = ['Desktop', 'Documents', 'Downloads', 'Music', 'Pictures', 'Videos',]
+extensions = [
+    '.doc', '.docx', '.txt', '.pdf', '.htm', '.html', '.ppt', '.pptx',
+    '.wma', '.avi', '.mov', '.jpg', '.jpeg', '.png', '.gif', '.psd',
+    '.svg', '.ai', '.zip', '.rar', '.7z', '.xlsx', '.rtf', '.exe', '.mp3',
+    '.mp4', '.msi', '.dll', '.eps', '.', '.xls', '.cvn', '',
+]
+
+document_location_paths = [
+    '3D Objects', 'Desktop', 'Documents', 'Downloads', 'Music', 'Pictures', 'Videos',
+]
 
 def welcome_message():
-    
-    print( '*******************************************\n*             FOR CYBER PARTIOTS          *\n*******************************************\n')
-    
-    print('This python file gets all user files on the\ncomputer to help find hidden files a user\nmay have\n')
-    
-    # Virual machines for Cyber Patriots are very slow 
-    # Allows the computer time to run the program
+    print('*' * 43 + '\n*             FOR CYBER PATRIOTS          *\n' + '*' * 43)
+    print('\nThis python file gets all user files on the\ncomputer to help find hidden files a user\nmay have\n')
     for seconds in range(5, 0, -1):
         print(f'\rThis script will now execute in {seconds} seconds', end=('' if seconds > 1 else '\n\n'))
         time.sleep(1)
 
+def get_user_list():
+    user_home = os.path.expanduser('~')
+    return user_home.replace('C:\\Users\\', '')
 
-# Overview, Gets all users on the machine and prints them out
+def get_files():
+    list_of_files = [
+        os.path.join(root, file)
+        for ending in document_location_paths
+        for root, dirs, files in os.walk(os.path.join('C:/Users/', get_user_list(), ending))
+        for file in files
+        if file.endswith(tuple(extensions))
+    ]
+    return list_of_files
 
-welcome_message()
-users = []
+def write_files_to_text(files):
+    try:
+        with open("User_Files.txt", 'w') as f:
+            f.write('\n'.join(files))
+    except FileNotFoundError:
+        print("File not found")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-# Strips the usernames of unnecessary parts
-remove_content = ('C:\\Users\\' + '''[]'"''')
-# Gets all usernames on the computer
-users.append(os.path.expanduser('~'))
-user_list = repr(users) # Turns list into str
-for content in remove_content:
-    user_list = user_list.replace(content, '')
+def main():
+    welcome_message()
+    
+    user_list = get_user_list()
+    print(f'All files found under users: {user_list}\n')
+    
+    list_of_files = get_files()
 
-print (f'All files found under users: {user_list}\n')
+    write_files_to_text(list_of_files)
 
+    for name in list_of_files:
+        print(name)
 
-# Uses os.walk to find all files with extentions I want
-list_of_files = []
-for ending in document_location_paths:
-    for root, directories, file in os.walk(f'C:/Users/{user_list}/{ending}'):
-	    for file in file:
-		    if(file.endswith(tuple(extentions))):
-			    list_of_files.append(os.path.join(root,file))
-
-# Creates file to put file list in
-try:
-    f = open("User_Files.txt", 'w')
-    files = repr(list_of_files)
-    f.write(files.replace(",", ", \n"))
-    f.close()
-except FileExistsError:
-    print("File exist on the computer")
-
-
-for name in list_of_files:
-    print(name)
+if __name__ == "__main__":
+    main()
